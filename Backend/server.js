@@ -30,6 +30,7 @@ const productRoutes = require('./routes/productRoutes');
 const supplierRoutes= require('./routes/supplierRoutes');
 const app = express();
 
+const customerRoutes = require('./routes/customerRoutes');
 
 app.use(cors());
 app.use(express.json());
@@ -39,7 +40,7 @@ app.use('/api', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/supplier',supplierRoutes);
-
+app.use('/api/customer',customerRoutes);
 app.use((req, res) => {
   res.status(404).json({ msg: 'Not found' });
 });
