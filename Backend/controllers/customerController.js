@@ -1,4 +1,4 @@
-const { ResultWithContextImpl } = require('express-validator/lib/chain');
+
 const db = require ('../config/db');
 
 //add new  customer

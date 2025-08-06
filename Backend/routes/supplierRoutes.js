@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const supplierController = require('../controllers/supplierController');
 
-// const {verifyToken,isAdmin} = require('../middleware/authMiddleware');
+ const {verifyToken,isAdmin} = require('../middleware/authMiddleware');
 
 router.post('/add',supplierController.createSupplier);
 
