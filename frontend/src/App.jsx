@@ -71,7 +71,7 @@ import Dashboard from "./pages/dashboard/DashBoard";
 import Products from "./pages/dashboard/product.jsx";
 import Customers from "./pages/dashboard/customer.jsx";
 import Suppliers from "./pages/dashboard/supplier.jsx";
-// import Category from "./pages/dashboard/category.jsx";
+ import Category from "./pages/dashboard/category.jsx";
 
 function App() {
   return (
@@ -83,7 +83,7 @@ function App() {
       <Route path="/products" element={<Products />} />
       <Route path="/customers" element={<Customers />} />
       <Route path="/suppliers" element={<Suppliers />} />
-      {/* <Route path="/categories" element={<Category />} /> */}
+      <Route path="/categories" element={<Category />} /> 
     </Routes>
   );
 }
