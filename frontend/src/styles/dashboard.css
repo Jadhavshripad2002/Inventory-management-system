@@ -1,0 +1,98 @@
+/* Container */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 230px;
+  background-color: #2f3b52;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 22px;
+  color: #1abc9c;
+  font-weight: bold;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  flex: 1;
+}
+
+.sidebar li {
+  margin-bottom: 15px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 12px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #ecf0f1;
+  font-size: 16px;
+  transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: #1abc9c;
+  padding-left: 25px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+
+.main-content h1 {
+  margin-bottom: 25px;
+  color: #2f3b52;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Cards Grid */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+/* Individual Cards */
+.card {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2f3b52;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Different card colors */
+.card:nth-child(1) { border-left: 6px solid #3498db; } /* Customers */
+.card:nth-child(2) { border-left: 6px solid #9b59b6; } /* Suppliers */
+.card:nth-child(3) { border-left: 6px solid #f39c12; } /* Products */
+.card:nth-child(4) { border-left: 6px solid #e67e22; } /* Categories */
+.card:nth-child(5) { border-left: 6px solid #16a085; } /* Stock */
+.card:nth-child(6) { border-left: 6px solid #2ecc71; } /* Purchases */
+.card:nth-child(7) { border-left: 6px solid #e74c3c; } /* Sales */
+.card:nth-child(8) { border-left: 6px solid #7f8c8d; } /* Logout */

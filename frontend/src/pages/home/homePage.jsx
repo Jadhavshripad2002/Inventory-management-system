@@ -1,6 +1,5 @@
 
 
-
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/layout/Header.jsx";
@@ -13,7 +12,8 @@ const Home = () => {
   // Refs for smooth scrolling
   const featuresRef = useRef(null);
   const aboutRef = useRef(null);
-
+ const testimonialsRef = useRef(null);
+ const contactRef = useRef(null);
   const scrollToSection = (ref) => {
     ref.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -55,6 +55,10 @@ const Home = () => {
         </div>
       </section>
 
+    
+
+
+
       {/* About Us Section */}
       <section ref={aboutRef} id="about" style={styles.aboutSection}>
         <h2 style={styles.aboutTitle}>About Our Inventory Management System</h2>
@@ -70,10 +74,73 @@ const Home = () => {
         </p>
       </section>
 
+
+      {/*  Testimonials Section */}
+      <section ref={testimonialsRef} id="testimonials" style={styles.testimonialsSection}>
+        <h2 style={styles.testimonialsTitle}>What Our Users Say</h2>
+        <div style={styles.testimonialsGrid}>
+          <div style={styles.testimonialCard}>
+            <p>"This system has made managing my shop so much easier!"</p>
+            <h4>- Eknath Rathod, Shop Owner</h4>
+          </div>
+          <div style={styles.testimonialCard}>
+            <p>"Now I can track stock and suppliers in one place. Highly recommended!"</p>
+            <h4>- Ramkishan, Manager</h4>
+          </div>
+          <div style={styles.testimonialCard}>
+            <p>"The role-based access ensures my staff only see what they need."</p>
+            <h4>- Shripad Jadhav, Business Owner</h4>
+          </div>
+        </div>
+      </section>
+
+      {/* contact us section */}
+
+<section id="contact" style={styles.contactSection}>
+  <h2 style={styles.contactTitle}>Contact Us</h2>
+
+  <div style={styles.contactInfo}>
+    <p><strong>Name:</strong> Shripad Jadhav</p>
+    <p><strong>Phone:</strong> +91 7821952366</p>
+    <p><strong>Email:</strong> jadhavshripad2002@gmail.com</p>
+  </div>
+  <form
+    onSubmit={async (e) => {
+      e.preventDefault();
+      const formData = {
+        name: e.target.name.value,
+        email: e.target.email.value,
+        message: e.target.message.value,
+      };
+
+      const res = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      alert(data.message);
+      e.target.reset();
+    }}
+    style={styles.contactForm}
+  >
+    <input type="text" name="name" placeholder="Your Name" required />
+    <input type="email" name="email" placeholder="Your Email" required />
+    <textarea name="message" placeholder="Your Message" required></textarea>
+    <button type="submit" style={styles.button}>Send Message</button>
+  </form>
+</section>
+
+
       <Footer />
     </div>
   );
 };
+
+
+
+
 
 const styles = {
   container: {
@@ -129,6 +196,56 @@ const styles = {
     maxWidth: "900px",
     margin: "10px auto",
   },
+
+  testimonialsSection: {
+    background: "#f9f9f9",
+    padding: "80px 40px",
+    textAlign: "center",
+  },
+  testimonialsTitle: {
+    fontSize: "28px",
+    fontWeight: "bold",
+    marginBottom: "40px",
+  },
+  testimonialsGrid: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "30px",
+    flexWrap: "wrap",
+  },
+  testimonialCard: {
+    maxWidth: "300px",
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "8px",
+    boxShadow: "0px 4px 8px rgba(0,0,0,0.1)",
+  },
+contactSection: {
+  padding: "50px",
+  background: "#f4f4f9",
+  textAlign: "center",
+},
+
+contactTitle: {
+  fontSize: "28px",
+  marginBottom: "20px",
+},
+
+contactInfo: {
+  marginBottom: "30px",
+  fontSize: "18px",
+  lineHeight: "1.8",
+  color: "#333",
+},
+
+contactForm: {
+  display: "flex",
+  flexDirection: "column",
+  gap: "15px",
+  maxWidth: "400px",
+  margin: "0 auto",
+},
+
 };
 
 export default Home;

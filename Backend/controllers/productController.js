@@ -15,8 +15,6 @@ exports.addProduct =(req,res)=>{
 );
 };
 
-
-
 //view all products
 
 

@@ -30,7 +30,8 @@ const productRoutes = require('./routes/productRoutes');
 const supplierRoutes= require('./routes/supplierRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const purchaseRoutes = require('./routes/purchaseRoutes');
-
+const salesRoutes = require('./routes/salesRoutes');
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 app.use(cors());
@@ -43,6 +44,9 @@ app.use('/api/product', productRoutes);
 app.use('/api/supplier',supplierRoutes);
 app.use('/api/customer',customerRoutes);
 app.use('/api/purchase',purchaseRoutes);
+app.use('/api/sales',salesRoutes);
+app.use("/api/dashboard",dashboardRoutes);
+
 app.use((req, res) => {
   res.status(404).json({ msg: 'Not found' });
 });

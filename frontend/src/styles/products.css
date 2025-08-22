@@ -1,0 +1,27 @@
+.product-container {
+  padding: 20px;
+}
+
+.product-form {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.product-form input, .product-form button {
+  padding: 8px;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th, .product-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.product-table th {
+  background: #f4f4f4;
+}

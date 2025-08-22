@@ -8,10 +8,12 @@ const Header = () => {
       <h2 style={styles.logo}>Inventory Management</h2>
       <nav>
         <ul style={styles.navList}>
-          <li><a href="#home" style={styles.link}>Home</a></li>
+          <li><a href="#home" className="nav-link" style={styles.link}>Home</a></li>
           <li><a href="#about" style={styles.link}>About Us</a></li>
           <li><a href="#features" style={styles.link}>Features</a></li>
+          <li><a href="#testimonials" style={styles.link}>Testimonials</a></li>
           <li><a href="#contact" style={styles.link}>Contact</a></li>
+         
         </ul>
       </nav>
     </header>
@@ -23,7 +25,7 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    background: "#777da8ff",
+    background: "#5b5f86ff",
     color: "white",
     padding: "15px 40px",
   },
@@ -35,11 +37,13 @@ const styles = {
     margin: 0,
     padding: 0,
   },
+  
   link: {
     color: "white",
     textDecoration: "none",
     fontWeight: "bold",
   }
+
 };
 
 export default Header;
