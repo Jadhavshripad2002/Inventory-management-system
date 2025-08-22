@@ -6,93 +6,115 @@ const Category = () => {
   const [categoryName, setCategoryName] = useState("");
   const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState("");
+  const [message, setMessage] = useState("");
 
-  // Fetch categories
   const fetchCategories = async () => {
-    const res = await axios.get("http://localhost:5000/api/categories/view");
-    setCategories(res.data);
+    try {
+      const res = await axios.get("http://localhost:5000/api/categories/view");
+      setCategories(res.data);
+    } catch (err) {
+      showMessage("Failed to fetch categories", true);
+    }
   };
 
   useEffect(() => {
     fetchCategories();
   }, []);
 
-  // Add / Update
+  const showMessage = (msg, isError = false) => {
+    setMessage({ text: msg, error: isError });
+    setTimeout(() => setMessage(""), 3000);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!categoryName.trim()) return alert("Category name required");
+    if (!categoryName.trim()) return showMessage("Category name required", true);
 
     try {
       if (editId) {
         await axios.put(`http://localhost:5000/api/categories/update/${editId}`, {
-          categoryName,
+          name: categoryName,
         });
-        alert("Category updated");
+        showMessage("Category updated");
       } else {
         await axios.post("http://localhost:5000/api/categories/add", { categoryName });
-        alert("Category added");
+        showMessage("Category added");
       }
       setCategoryName("");
       setEditId(null);
       fetchCategories();
     } catch (err) {
-      alert(err.response.data.msg);
+      showMessage(err.response?.data?.msg || "Something went wrong", true);
     }
   };
 
-  // Edit
   const handleEdit = (cat) => {
     setCategoryName(cat.categoryName);
     setEditId(cat.categoryID);
   };
 
-  // Delete
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure to delete this category?")) return;
-    await axios.delete(`http://localhost:5000/api/categories/delete/${id}`);
-    fetchCategories();
+    try {
+      await axios.delete(`http://localhost:5000/api/categories/delete/${id}`);
+      showMessage("Category deleted");
+      fetchCategories();
+    } catch {
+      showMessage("Failed to delete category", true);
+    }
   };
 
-  // Search categories
   const handleSearch = async (e) => {
     const value = e.target.value;
     setSearch(value);
+    if (!value.trim()) return fetchCategories();
 
-    if (value.trim() === "") {
-      fetchCategories();
-    } else {
+    try {
       const res = await axios.get(
-        `http://localhost:5000/api/categories/search?name=${value}`
-      );
+  `http://localhost:5000/api/categories/searchCategory/name?name=${value}`
+);
+
       setCategories(res.data);
+    } catch {
+      showMessage("Search failed", true);
     }
   };
 
   return (
-    <div>
-      <h2>Categories</h2>
+    <div className="container mt-4">
+      <h2 className="mb-4">Categories</h2>
 
-      <div style={{ marginBottom: 20 }}>
-        <input
-          type="text"
-          placeholder="Search Category..."
-          value={search}
-          onChange={handleSearch}
-        />
+      {message && (
+        <div className={`alert ${message.error ? "alert-danger" : "alert-success"}`}
+          role="alert"
+        >
+          {message.text}
+        </div>
+      )}
+
+      <div className="mb-3 d-flex gap-2">
+        <input type="text" placeholder="Search Category"value={search}onChange={handleSearch} className="form-control w-25" />
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Category Name"
-          value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
-        />
-        <button type="submit">{editId ? "Update" : "Add"}</button>
+      <form onSubmit={handleSubmit} className="mb-4 d-flex gap-2">
+        <input type="text"placeholder="Category Name"value={categoryName} onChange={(e) => setCategoryName(e.target.value)}
+          className="form-control w-25"/>
+        <button type="submit" className="btn btn-primary">
+          {editId ? "Update" : "Add"}
+        </button>
+        {editId && (
+          <button type="button" className="btn btn-secondary" onClick={() => {
+               setEditId(null);
+              setCategoryName("");
+            }}
+          >
+            Cancel
+          </button>
+        )}
       </form>
 
-      <table border="1" style={{ marginTop: 20 }}>
-        <thead>
+      <table className="table table-bordered table-striped">
+        <thead className="table-dark">
           <tr>
             <th>ID</th>
             <th>Name</th>
@@ -101,17 +123,35 @@ const Category = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map((cat) => (
-            <tr key={cat.categoryID}>
-              <td>{cat.categoryID}</td>
-              <td>{cat.categoryName}</td>
-              <td>{new Date(cat.createdDate).toLocaleDateString()}</td>
-              <td>
-                <button onClick={() => handleEdit(cat)}>Edit</button>
-                <button onClick={() => handleDelete(cat.categoryID)}>Delete</button>
+          {categories.length === 0 ? (
+            <tr>
+              <td colSpan="4" className="text-center">
+                No categories found
               </td>
             </tr>
-          ))}
+          ) : (
+            categories.map((cat) => (
+              <tr key={cat.categoryID}>
+                <td>{cat.categoryID}</td>
+                <td>{cat.categoryName}</td>
+                <td>{new Date(cat.createdDate).toLocaleDateString()}</td>
+                <td className="d-flex gap-2">
+                  <button
+                    className="btn btn-sm btn-warning"
+                    onClick={() => handleEdit(cat)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDelete(cat.categoryID)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

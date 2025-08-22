@@ -9,7 +9,7 @@ import { FaBox, FaUsers, FaUserShield } from "react-icons/fa";
 const Home = () => {
   const navigate = useNavigate();
 
-  // Refs for smooth scrolling
+  
   const featuresRef = useRef(null);
   const aboutRef = useRef(null);
  const testimonialsRef = useRef(null);
@@ -31,7 +31,7 @@ const Home = () => {
         </button>
       </div>
 
-      {/* Features Section */}
+      
       <section ref={featuresRef} id="features" style={styles.featuresSection}>
         <h2 style={styles.featuresTitle}>Features</h2>
         <div style={styles.featuresGrid}>
@@ -59,7 +59,6 @@ const Home = () => {
 
 
 
-      {/* About Us Section */}
       <section ref={aboutRef} id="about" style={styles.aboutSection}>
         <h2 style={styles.aboutTitle}>About Our Inventory Management System</h2>
         <p style={styles.aboutText}>
@@ -75,7 +74,6 @@ const Home = () => {
       </section>
 
 
-      {/*  Testimonials Section */}
       <section ref={testimonialsRef} id="testimonials" style={styles.testimonialsSection}>
         <h2 style={styles.testimonialsTitle}>What Our Users Say</h2>
         <div style={styles.testimonialsGrid}>
@@ -94,7 +92,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* contact us section */}
+    
 
 <section id="contact" style={styles.contactSection}>
   <h2 style={styles.contactTitle}>Contact Us</h2>

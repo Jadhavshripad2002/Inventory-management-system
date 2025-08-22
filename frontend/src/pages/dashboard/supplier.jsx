@@ -95,11 +95,7 @@ export default function Supplier() {
 
       
       <div className="d-flex mb-4 gap-2">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search by Supplier Name"
-          value={search}
+        <input type="text" className="form-control" placeholder="Search by Supplier Name" value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <button className="btn btn-primary" onClick={handleSearch}>
@@ -117,20 +113,14 @@ export default function Supplier() {
       >
         <div className="row g-3">
           <div className="col-md-4">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Supplier Name"
-              value={form.sName}
+            <input  type="text" className="form-control" placeholder="Supplier Name" value={form.sName}
               onChange={(e) => setForm({ ...form, sName: e.target.value })}
               required
             />
           </div>
           <div className="col-md-4">
             <input
-              type="date"
-              className="form-control"
-              value={form.contactDate}
+              type="date" className="form-control" value={form.contactDate}
               onChange={(e) =>
                 setForm({ ...form, contactDate: e.target.value })
               }
@@ -139,19 +129,13 @@ export default function Supplier() {
           </div>
           <div className="col-md-4">
             <input
-              type="text"
-              className="form-control"
-              placeholder="Phone"
-              value={form.phone}
+              type="text" className="form-control" placeholder="Phone" value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
               required
             />
           </div>
           <div className="col-md-4">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Company Name"
+            <input type="text" className="form-control" placeholder="Company Name"
               value={form.companyName}
               onChange={(e) =>
                 setForm({ ...form, companyName: e.target.value })
@@ -160,30 +144,22 @@ export default function Supplier() {
           </div>
           <div className="col-md-4">
             <input
-              type="email"
-              className="form-control"
-              placeholder="Email"
+              type="email" className="form-control" placeholder="Email"
               value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+           onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
             />
           </div>
           <div className="col-md-4">
             <input
-              type="text"
-              className="form-control"
-              placeholder="Address"
-              value={form.address}
+              type="text" className="form-control" placeholder="Address" value={form.address}
               onChange={(e) => setForm({ ...form, address: e.target.value })}
               required
             />
           </div>
           <div className="col-md-4">
             <input
-              type="text"
-              className="form-control"
-              placeholder="GST Number"
-              value={form.gstNumber}
+              type="text" className="form-control"  placeholder="GST Number" value={form.gstNumber}
               onChange={(e) =>
                 setForm({ ...form, gstNumber: e.target.value })
               }

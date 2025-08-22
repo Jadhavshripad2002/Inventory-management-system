@@ -19,7 +19,7 @@ const Login = () => {
 
       localStorage.setItem("token", res.data.token);
 
-      // redirect to dashboard/home
+      
       navigate("/dashboard");
     } catch (err) {
       alert(err.response?.data?.msg || "Login failed");
@@ -32,18 +32,12 @@ const Login = () => {
         <h2>Login</h2>
         <form onSubmit={handleLogin}>
           <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
             required
           />
 
           <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
             required
           />
 

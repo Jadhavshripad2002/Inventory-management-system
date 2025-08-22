@@ -117,8 +117,6 @@ const Products = () => {
             )}
           </form>
         </div>
-
-     
         <div className="col-md-4">
           <div className="input-group">
             <input
