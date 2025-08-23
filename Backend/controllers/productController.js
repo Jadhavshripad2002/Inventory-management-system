@@ -1,19 +1,42 @@
 const db = require('../config/db');
 //add product
+exports.addProduct = (req, res) => {
+  const { productName, categoryID } = req.body;
 
+  if (!productName) 
+    return res.status(400).json({ msg: 'Product name required' });
 
-exports.addProduct =(req,res)=>{
-    const { productName,categoryID} = req.body;
-    if(!productName ) return res.status(400).json({msg:'product name required'});
-    db.query('insert into product(productName,categoryID) values(?,?)',[productName,categoryID || null],(err,result)=>{
-        if(err)  {
-            console.log('insert error',err);
-            return res.status(500).json({msg:'insert error'});
-        }
-        res.json({id:result.insertId,msg:'product added successfully'});
-    }
-);
+  const createdDate = new Date().toISOString().split('T')[0]; 
+
+  // If categoryID is given, check if it exists
+  if (categoryID) {
+    db.query('SELECT categoryID FROM product_category WHERE categoryID = ?', [categoryID], (err, rows) => {
+      if (err) return res.status(500).json({ msg: 'Category check error' });
+      if (!rows.length) return res.status(400).json({ msg: 'Invalid categoryID' });
+
+      insertProduct(productName, createdDate, categoryID, res);
+    });
+  } else {
+    insertProduct(productName, createdDate, null, res);
+  }
 };
+
+function insertProduct(productName, createdDate, categoryID, res) {
+  db.query(
+    'INSERT INTO product (productName, createdDate, categoryID) VALUES (?, ?, ?)',
+    [productName, createdDate, categoryID],
+    (err, result) => {
+      if (err) {
+        console.log('Insert error', err);
+        return res.status(500).json({ msg: 'Insert error', error: err });
+      }
+      res.json({ id: result.insertId, msg: 'Product added successfully' });
+    }
+  );
+}
+
+
+
 
 //view all products
 
@@ -83,6 +106,4 @@ exports.searchProductByName = (req, res) => {
     }
   );
 };
-
-
 

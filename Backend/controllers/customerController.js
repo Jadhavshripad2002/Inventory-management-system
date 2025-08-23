@@ -62,7 +62,7 @@ exports.updateCustomer = (req, res) => {
 //delete customer by id
 
 exports.deleteCustomer=(req,res)=>{
-    const id=req.paramsid;
+    const id=req.params.id;
     db.query('delete from customer where customerId=?',[id],(err,result)=>{
         if(err) return res.status(500).json({msg:'Delete error ',error:err});
       res.json({msg:'customer deleted successfully'});  
