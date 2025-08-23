@@ -1,4 +1,4 @@
-/* Container */
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
@@ -6,7 +6,7 @@
   background-color: #f4f6f8;
 }
 
-/* Sidebar */
+
 .sidebar {
   width: 230px;
   background-color: #2f3b52;
@@ -49,7 +49,7 @@
   padding-left: 25px;
 }
 
-/* Main Content */
+
 .main-content {
   flex: 1;
   padding: 30px;
@@ -62,14 +62,13 @@
   font-weight: bold;
 }
 
-/* Cards Grid */
+
 .stats-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
 }
 
-/* Individual Cards */
 .card {
   background-color: white;
   padding: 25px;
@@ -87,7 +86,6 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* Different card colors */
 .card:nth-child(1) { border-left: 6px solid #3498db; } /* Customers */
 .card:nth-child(2) { border-left: 6px solid #9b59b6; } /* Suppliers */
 .card:nth-child(3) { border-left: 6px solid #f39c12; } /* Products */

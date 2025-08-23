@@ -1,162 +1,249 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Categories = () => {
-  const [categories, setCategories] = useState([]);
-  const [categoryName, setCategoryName] = useState("");
-  const [editId, setEditId] = useState(null);
+const Customer = () => {
+  const [customers, setCustomers] = useState([]);
+  const [formData, setFormData] = useState({
+    cName: "",
+    email: "",
+    phone: "",
+    address: "",
+    gstNumber: "",
+    contactDate: "",
+  });
   const [search, setSearch] = useState("");
+  const [editId, setEditId] = useState(null);
 
-  const fetchCategories = async () => {
+  const API_URL = "http://localhost:5000/api/customer";
+
+
+  const fetchCustomers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/categories/view");
-      setCategories(res.data);
+      const res = await axios.get(`${API_URL}/view`);
+      setCustomers(res.data);
     } catch (err) {
-      console.error("Failed to fetch categories", err);
+      console.error("Fetch error:", err);
     }
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchCustomers();
   }, []);
+
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!categoryName.trim()) return;
-
     try {
       if (editId) {
-        await axios.put(
-          `http://localhost:5000/api/categories/update/${editId}`,
-          { categoryName }
-        );
+    
+        await axios.put(`${API_URL}/update/${editId}`, formData);
+        alert("Customer updated successfully");
       } else {
-        await axios.post("http://localhost:5000/api/categories/add", {
-          categoryName,
-        });
+       
+        await axios.post(`${API_URL}/add`, formData);
+        alert("Customer added successfully");
       }
-      setCategoryName("");
+      setFormData({
+        cName: "",
+        email: "",
+        phone: "",
+        address: "",
+        gstNumber: "",
+        contactDate: "",
+      });
       setEditId(null);
-      fetchCategories();
+      fetchCustomers();
     } catch (err) {
-      console.error("Error saving category:", err);
+      console.error("Save error:", err);
     }
   };
 
-  const handleEdit = (cat) => {
-    setCategoryName(cat.categoryName);
-    setEditId(cat.categoryID);
-  };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this category?")) return;
-    try {
-      await axios.delete(`http://localhost:5000/api/categories/delete/${id}`);
-      fetchCategories();
-    } catch (err) {
-      console.error("Failed to delete category:", err);
+    if (window.confirm("Are you sure you want to delete this customer?")) {
+      try {
+        await axios.delete(`${API_URL}/delete/${id}`);
+        alert("Customer deleted successfully");
+        fetchCustomers();
+      } catch (err) {
+        console.error("Delete error:", err);
+      }
     }
   };
 
-  const handleSearch = async () => {
-    if (!search.trim()) {
-      fetchCategories();
-      return;
-    }
-    try {
-      const res = await axios.get(
-        `http://localhost:5000/api/customer/searchCustomer/name?name=${search}`
-      );
-      setCategories(res.data);
-    } catch (err) {
-      console.error("Search failed:", err);
-      setCategories([]);
-    }
+ 
+  const handleEdit = (customer) => {
+    setFormData(customer);
+    setEditId(customer.customerId);
   };
 
-  const handleResetSearch = () => {
-    setSearch("");
-    fetchCategories();
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get(`${API_URL}/searchCustomer/name`, {
+        params: { name: search },
+      });
+      setCustomers(res.data);
+    } catch (err) {
+      console.error("Search error:", err);
+    }
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Category Management</h2>
+    <div className="container mt-4">
+      <h2 className="mb-3">Customer Management</h2>
 
-      <div className="input-group mb-4">
+ 
+      <form className="d-flex mb-3" onSubmit={handleSearch}>
         <input
-          type="text" className="form-control" placeholder="Search category" value={search}
-          onChange={(e) => setSearch(e.target.value)} />
-        <button className="btn btn-primary" onClick={handleSearch}>
-          Search
+          type="text"
+          className="form-control me-2"
+          placeholder="Search by name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button className="btn btn-primary">Search</button>
+        <button
+          className="btn btn-secondary ms-2"
+          type="button"
+          onClick={fetchCustomers}
+        >
+          Reset
         </button>
-        {search && (
-          <button className="btn btn-secondary" onClick={handleResetSearch}>
-            Reset
-          </button>
-        )}
-      </div>
+      </form>
 
-      <div className="card p-3 mb-4 shadow-sm">
-        <form onSubmit={handleSubmit} className="row g-3 align-items-center">
-          <div className="col-md-8">
-            <input type="text" className="form-control" placeholder="Category Name" value={categoryName} onChange={(e) => setCategoryName(e.target.value)}
+    
+      <form onSubmit={handleSubmit} className="card p-3 mb-4 shadow-sm">
+        <h5>{editId ? "Update Customer" : "Add Customer"}</h5>
+        <div className="row g-3">
+          <div className="col-md-4">
+            <input
+              type="text"
+              name="cName"
+              placeholder="Name"
+              className="form-control"
+              value={formData.cName}
+              onChange={handleChange}
               required
             />
           </div>
           <div className="col-md-4">
-            <button type="submit" className="btn btn-success w-100">
-              {editId ? "Update Category" : "Add Category"}
-            </button>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="form-control"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
           </div>
-        </form>
-      </div>
+          <div className="col-md-4">
+            <input
+              type="text"
+              name="phone"
+              placeholder="Phone"
+              className="form-control"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-4">
+            <input
+              type="text"
+              name="address"
+              placeholder="Address"
+              className="form-control"
+              value={formData.address}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-4">
+            <input
+              type="text"
+              name="gstNumber"
+              placeholder="GST Number"
+              className="form-control"
+              value={formData.gstNumber}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="col-md-4">
+            <input
+              type="date"
+              name="contactDate"
+              className="form-control"
+              value={formData.contactDate}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+        <button className="btn btn-success mt-3">
+          {editId ? "Update" : "Add"}
+        </button>
+      </form>
 
-      <div className="table-responsive shadow-sm">
-        <table className="table table-striped table-bordered align-middle">
-          <thead className="table-dark text-center">
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Created Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categories.length > 0 ? (
-              categories.map((cat) => (
-                <tr key={cat.categoryID} className="text-center">
-                  <td>{cat.categoryID}</td>
-                  <td>{cat.categoryName}</td>
-                  <td>{new Date(cat.createdDate).toLocaleDateString()}</td>
-                  <td>
-                    <button
-                      className="btn btn-warning btn-sm me-2"
-                      onClick={() => handleEdit(cat)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(cat.categoryID)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="text-center text-muted">
-                  No categories found
+ 
+      <table className="table table-bordered table-striped shadow-sm">
+        <thead className="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>GST Number</th>
+            <th>Contact Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {customers.length > 0 ? (
+            customers.map((cust) => (
+              <tr key={cust.customerId}>
+                <td>{cust.customerId}</td>
+                <td>{cust.cName}</td>
+                <td>{cust.email}</td>
+                <td>{cust.phone}</td>
+                <td>{cust.address}</td>
+                <td>{cust.gstNumber}</td>
+                <td>{cust.contactDate}</td>
+                <td>
+                  <button
+                    className="btn btn-warning btn-sm me-2"
+                    onClick={() => handleEdit(cust)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(cust.customerId)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="8" className="text-center">
+                No customers found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default Categories;
+export default Customer;

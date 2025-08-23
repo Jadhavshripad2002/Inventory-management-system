@@ -19,7 +19,7 @@ const Signup = () => {
         password,
       });
       alert(res.data.msg);
-      navigate("/login"); // signup successful → redirect to login
+      navigate("/login"); // signup successful then redirect to login
     } catch (err) {
       alert(err.response?.data?.msg || "Signup failed");
     }
